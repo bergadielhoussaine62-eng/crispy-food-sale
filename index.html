@@ -2,45 +2,45 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>Crispy Food - طلب مباشر</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crispy Food - طلبات</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-slate-50 p-6">
+<body class="bg-gray-100 p-4">
 
-    <main class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+    <div class="max-w-3xl mx-auto">
+        <h1 class="text-2xl font-bold mb-6 text-center">Crispy Food Menu</h1>
         
-        <div class="space-y-4">
-            <h2 class="text-xl font-bold mb-4">قائمة الوجبات</h2>
-            
-            <div class="bg-white p-4 rounded-xl shadow flex items-center gap-4">
-                <img src="https://images.unsplash.com/photo-1599974579688-8dbdd335c77f?w=200" class="w-20 h-20 rounded-lg object-cover">
-                <div>
-                    <h3 class="font-bold">Tacos Crispy</h3>
-                    <p class="text-blue-600 font-bold">42 درهم</p>
-                    <button onclick="addToCart('Tacos Crispy', 42)" class="bg-blue-600 text-white px-4 py-1 rounded mt-2">إضافة</button>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="space-y-4">
+                <div class="bg-white p-4 rounded-lg shadow flex gap-4">
+                    <img src="https://via.placeholder.com/100x100?text=Tacos" class="w-20 h-20 rounded object-cover" alt="Tacos">
+                    <div>
+                        <h3 class="font-bold">Tacos Crispy</h3>
+                        <p class="text-blue-600 font-bold">42 درهم</p>
+                        <button onclick="addToCart('Tacos Crispy', 42)" class="bg-blue-600 text-white px-3 py-1 rounded mt-2 text-sm">إضافة</button>
+                    </div>
+                </div>
+
+                <div class="bg-white p-4 rounded-lg shadow flex gap-4">
+                    <img src="https://via.placeholder.com/100x100?text=Box" class="w-20 h-20 rounded object-cover" alt="Box">
+                    <div>
+                        <h3 class="font-bold">Crispy Box</h3>
+                        <p class="text-blue-600 font-bold">47 درهم</p>
+                        <button onclick="addToCart('Crispy Box', 47)" class="bg-blue-600 text-white px-3 py-1 rounded mt-2 text-sm">إضافة</button>
+                    </div>
                 </div>
             </div>
 
-            <div class="bg-white p-4 rounded-xl shadow flex items-center gap-4">
-                <img src="https://images.unsplash.com/photo-1626078443219-5d252119119d?w=200" class="w-20 h-20 rounded-lg object-cover">
-                <div>
-                    <h3 class="font-bold">Crispy Box</h3>
-                    <p class="text-blue-600 font-bold">47 درهم</p>
-                    <button onclick="addToCart('Crispy Box', 47)" class="bg-blue-600 text-white px-4 py-1 rounded mt-2">إضافة</button>
-                </div>
+            <div class="bg-white p-4 rounded-lg shadow h-fit">
+                <h2 class="font-bold text-lg mb-4">سلة الطلبات</h2>
+                <div id="cart-list" class="space-y-2 mb-4"></div>
+                <hr>
+                <p class="text-xl font-bold mt-4">المجموع: <span id="total">0</span> درهم</p>
+                <button onclick="checkout()" class="w-full bg-green-600 text-white py-3 rounded-lg mt-4 font-bold">إرسال الطلب عبر واتساب</button>
             </div>
         </div>
-
-        <div class="bg-white p-6 rounded-xl shadow">
-            <h2 class="text-xl font-bold mb-4">سلة الطلبات</h2>
-            <div id="cart-items" class="space-y-2 mb-4">
-                </div>
-            <div class="border-t pt-4">
-                <p class="text-lg font-bold">المجموع: <span id="total-price">0</span> درهم</p>
-                <button onclick="sendOrder()" class="w-full bg-green-600 text-white py-3 rounded-xl mt-4 font-bold">إرسال الطلب عبر واتساب</button>
-            </div>
-        </div>
-    </main>
+    </div>
 
     <script>
         let cart = [];
@@ -49,28 +49,17 @@
         function addToCart(name, price) {
             cart.push({name, price});
             total += price;
-            updateUI();
+            renderCart();
         }
 
-        function removeFromCart(index) {
-            total -= cart[index].price;
-            cart.splice(index, 1);
-            updateUI();
+        function renderCart() {
+            const list = document.getElementById('cart-list');
+            list.innerHTML = cart.map(item => `<p>${item.name} - ${item.price} DH</p>`).join('');
+            document.getElementById('total').innerText = total;
         }
 
-        function updateUI() {
-            const container = document.getElementById('cart-items');
-            container.innerHTML = cart.map((item, index) => `
-                <div class="flex justify-between items-center bg-slate-100 p-2 rounded">
-                    <span>${item.name}</span>
-                    <button onclick="removeFromCart(${index})" class="text-red-500 font-bold">✕</button>
-                </div>
-            `).join('');
-            document.getElementById('total-price').innerText = total;
-        }
-
-        function sendOrder() {
-            let msg = "طلبي هو: " + cart.map(i => i.name).join(", ") + " | المجموع: " + total + " درهم";
+        function checkout() {
+            let msg = "الطلب: " + cart.map(i => i.name).join(", ") + ". المجموع: " + total + " DH";
             window.open("https://wa.me/212634555612?text=" + encodeURIComponent(msg));
         }
     </script>
