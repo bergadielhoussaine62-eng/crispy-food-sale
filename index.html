@@ -8,33 +8,44 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>body { font-family: 'Cairo', sans-serif; }</style>
 </head>
-<body class="bg-gray-900 text-white">
+<body class="bg-slate-50">
 
-    <header class="relative bg-gradient-to-r from-orange-600 to-yellow-500 py-16 px-6 text-center">
-        <div class="max-w-3xl mx-auto">
-            <h1 class="text-4xl md:text-5xl font-black mb-4">طلب مباشر أونلاين من سناك كريسبي فود</h1>
-            <p class="text-lg md:text-xl font-bold bg-black/30 p-4 rounded-xl">
-                اختار وجبتك المفضلة، تتبع المجموع وتعديل الكمية، وأرسل الطلب مباشرة عبر الواتساب للمحل بسلا!
-            </p>
+    <section class="relative bg-slate-950 text-white overflow-hidden">
+        <div class="absolute inset-0 opacity-40">
+            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=2000" class="w-full h-full object-cover" alt="Delivery Background">
         </div>
-    </header>
+        <div class="relative max-w-6xl mx-auto px-6 py-20 flex flex-col md:flex-row items-center gap-10">
+            <div class="flex-1 space-y-6">
+                <h1 class="text-4xl md:text-6xl font-black leading-tight text-yellow-400">سرعة توصيل... بنة ما تتفوتش!</h1>
+                <p class="text-lg text-slate-200">طلب مباشر أونلاين من سناك كريسبي فود. اختار وجبتك المفضلة، تتبع المجموع وتعديل الكمية، وأرسل الطلب مباشرة عبر الواتساب للمحل بسلا.</p>
+                <div class="flex gap-4">
+                    <a href="#menu" class="bg-yellow-500 hover:bg-yellow-600 text-black px-8 py-3 rounded-full font-bold text-lg transition-transform hover:scale-105">اطلب الآن 🚀</a>
+                </div>
+            </div>
+            <div class="flex-1">
+                <img src="https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=800" class="rounded-3xl shadow-2xl border-4 border-yellow-500/20" alt="Delivery">
+            </div>
+        </div>
+    </section>
 
-    <main class="max-w-6xl mx-auto p-6 grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <main id="menu" class="max-w-6xl mx-auto p-8 grid grid-cols-1 lg:grid-cols-3 gap-10">
         <div class="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <div class="bg-gray-800 p-4 rounded-2xl border border-gray-700">
-                <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500" class="w-full h-48 rounded-xl object-cover mb-4">
-                <h3 class="text-xl font-bold">Chicken Burger</h3>
-                <p class="text-yellow-400 font-bold text-lg">47 درهم</p>
-                <button onclick="addItem('Chicken Burger', 47)" class="w-full mt-3 bg-orange-600 py-2 rounded-lg font-bold hover:bg-orange-700">إضافة للطلب</button>
+            <div class="bg-white p-5 rounded-3xl shadow-sm border border-slate-100">
+                <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500" class="w-full h-40 object-cover rounded-2xl mb-4">
+                <h3 class="font-bold text-lg">Chicken Burger</h3>
+                <p class="text-blue-600 font-bold mb-3">47 DH</p>
+                <button onclick="addItem('Chicken Burger', 47)" class="w-full bg-blue-600 text-white py-2 rounded-xl font-bold">إضافة</button>
             </div>
             </div>
 
-        <div class="bg-white text-gray-900 p-6 rounded-2xl h-fit">
+        <div class="bg-white p-6 rounded-3xl shadow-xl h-fit sticky top-5 border border-slate-100">
             <h2 class="text-xl font-bold mb-4">سلة الطلبات</h2>
-            <div id="cart-list" class="space-y-3 min-h-[100px]"></div>
-            <div class="border-t mt-4 pt-4">
-                <p class="text-2xl font-black">المجموع: <span id="final-total">0.00</span> DH</p>
-                <button onclick="sendWhatsApp()" class="w-full mt-4 bg-green-600 text-white py-4 rounded-xl font-bold text-lg hover:bg-green-700">إرسال الطلب عبر الواتساب</button>
+            <div id="cart-list" class="space-y-3 mb-6 min-h-[100px]"></div>
+            <div class="border-t pt-4">
+                <p class="text-lg font-bold">المجموع: <span id="final-total">0.00</span> DH</p>
+                <input type="text" id="custName" placeholder="الاسم الكامل" class="w-full mt-3 p-2 border rounded-lg">
+                <input type="text" id="custAddr" placeholder="العنوان بسلا" class="w-full mt-2 p-2 border rounded-lg">
+                <button onclick="sendViaWhatsApp()" class="w-full bg-emerald-600 text-white py-4 rounded-xl mt-4 font-bold text-lg">إرسال الطلب عبر واتساب</button>
             </div>
         </div>
     </main>
@@ -42,19 +53,24 @@
     <script>
         let selectedItems = {};
         function addItem(name, price) {
-            selectedItems[name] = (selectedItems[name] || 0) + price;
+            selectedItems[name] = selectedItems[name] ? {price: price, qty: selectedItems[name].qty + 1} : {price: price, qty: 1};
             refreshUI();
         }
         function refreshUI() {
-            let list = document.getElementById('cart-list');
-            list.innerHTML = Object.keys(selectedItems).map(name => `<p class="font-bold border-b">${name} - ${selectedItems[name]} DH</p>`).join('');
-            let total = Object.values(selectedItems).reduce((a, b) => a + b, 0);
+            let container = document.getElementById('cart-list');
+            let total = 0;
+            container.innerHTML = Object.keys(selectedItems).map(name => {
+                let item = selectedItems[name];
+                total += item.price * item.qty;
+                return `<div class="flex justify-between">${name} x${item.qty} <b>${item.price * item.qty} DH</b></div>`;
+            }).join('');
             document.getElementById('final-total').innerText = total.toFixed(2);
         }
-        function sendWhatsApp() {
-            let total = document.getElementById('final-total').innerText;
-            let msg = "أريد طلب: " + Object.keys(selectedItems).join(", ") + " | المجموع: " + total + " DH";
-            window.open("https://wa.me/212634555612?text=" + encodeURIComponent(msg));
+        function sendViaWhatsApp() {
+            let name = document.getElementById('custName').value;
+            let addr = document.getElementById('custAddr').value;
+            let msg = `طلب جديد: الاسم: ${name}, العنوان: ${addr}. المجموع: ${document.getElementById('final-total').innerText} DH`;
+            window.open(`https://wa.me/212634555612?text=${encodeURIComponent(msg)}`);
         }
     </script>
 </body>
