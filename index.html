@@ -3,35 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crispy Food - موقع الطلبات</title>
+    <title>Crispy Food - سلا</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-50 text-gray-900 font-sans">
+<body class="bg-gray-50 font-sans">
 
-    <nav class="bg-white border-b border-gray-200 p-4 flex justify-between items-center shadow-sm">
-        <h1 class="text-xl font-bold text-blue-600">Crispy Food</h1>
-        <div id="cartCount" class="bg-gray-100 px-4 py-2 rounded-full font-semibold">السلة: 0</div>
+    <nav class="bg-white/80 backdrop-blur-md sticky top-0 border-b border-gray-200 p-4 flex justify-between items-center shadow-sm">
+        <h1 class="text-xl font-bold text-blue-700">Crispy Food</h1>
+        <div id="cartCount" class="bg-blue-100 text-blue-700 px-4 py-1 rounded-full font-bold">
+            السلة: 0
+        </div>
     </nav>
 
-    <main class="p-6 max-w-2xl mx-auto">
-        <h2 class="text-2xl font-bold mb-6">المنيو</h2>
-        <div id="menu-container" class="grid gap-4">
-            <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex justify-between items-center">
+    <main class="p-4 max-w-lg mx-auto">
+        <h2 class="text-xl font-bold mb-4 text-gray-700">قائمة الطعام</h2>
+        
+        <div id="menu-container" class="space-y-4">
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex justify-between items-center transition-all hover:shadow-md">
                 <div>
-                    <p class="font-semibold text-lg">ساندويتش كريسبي</p>
-                    <p class="text-blue-600 font-bold">25 درهم</p>
+                    <h3 class="font-bold text-lg">ساندويتش كريسبي</h3>
+                    <p class="text-blue-600 font-semibold">25 درهم</p>
                 </div>
-                <button onclick="addToCart('ساندويتش كريسبي', 25)" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">أضف</button>
+                <button onclick="addToCart('ساندويتش كريسبي', 25)" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-xl font-bold">أضف</button>
+            </div>
+
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex justify-between items-center transition-all hover:shadow-md">
+                <div>
+                    <h3 class="font-bold text-lg">بيتزا مارغريتا</h3>
+                    <p class="text-blue-600 font-semibold">45 درهم</p>
+                </div>
+                <button onclick="addToCart('بيتزا مارغريتا', 45)" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-xl font-bold">أضف</button>
             </div>
         </div>
     </main>
+
+    <div id="checkout-section" class="hidden fixed bottom-5 left-5 right-5">
+        <button onclick="checkout()" class="w-full bg-green-600 hover:bg-green-700 text-white py-4 rounded-2xl font-bold text-lg shadow-lg">
+            إتمام الطلب عبر واتساب
+        </button>
+    </div>
 
     <script>
         let cart = [];
         function addToCart(name, price) {
             cart.push({name, price});
             document.getElementById('cartCount').innerText = "السلة: " + cart.length;
-            alert(name + " تمت إضافتها!");
+            document.getElementById('checkout-section').classList.remove('hidden');
+        }
+
+        function checkout() {
+            let total = cart.reduce((sum, item) => sum + item.price, 0);
+            let message = "مرحبا، أريد طلب:%0A" + cart.map(i => i.name).join("%0A") + "%0A%0Aالمجموع: " + total + " درهم";
+            window.open("https://wa.me/212634555612?text=" + message, "_blank");
         }
     </script>
 </body>
