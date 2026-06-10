@@ -2,75 +2,57 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Snack Crispy Food - طلب مباشر</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
-    <style>body { font-family: 'Cairo', sans-serif; }</style>
+    <style>@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;900&display=swap'); body { font-family: 'Cairo', sans-serif; }</style>
 </head>
-<body class="bg-slate-50">
+<body class="bg-black text-white">
 
-    <section class="relative bg-slate-950 text-white overflow-hidden">
-        <div class="absolute inset-0 opacity-40">
-            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=2000" class="w-full h-full object-cover" alt="Delivery Background">
+    <header class="relative h-[80vh] flex items-center justify-center text-center p-6 bg-[url('https://images.unsplash.com/photo-1556679343-c7306c1976bc?q=80&w=2000')] bg-cover bg-center">
+        <div class="bg-black/60 p-8 rounded-3xl">
+            <h1 class="text-5xl font-black text-yellow-400 mb-4">سرعة توصيل... بنة ما تتفوتش!</h1>
+            <p class="text-xl mb-6">جودة عالية، مكونات طازجة، ووجبات توصلك في وقت قياسي.</p>
+            <a href="#menu" class="bg-yellow-500 text-black px-10 py-4 rounded-full font-bold text-xl">اطلب الآن</a>
         </div>
-        <div class="relative max-w-6xl mx-auto px-6 py-20 flex flex-col md:flex-row items-center gap-10">
-            <div class="flex-1 space-y-6">
-                <h1 class="text-4xl md:text-6xl font-black leading-tight text-yellow-400">سرعة توصيل... بنة ما تتفوتش!</h1>
-                <p class="text-lg text-slate-200">طلب مباشر أونلاين من سناك كريسبي فود. اختار وجبتك المفضلة، تتبع المجموع وتعديل الكمية، وأرسل الطلب مباشرة عبر الواتساب للمحل بسلا.</p>
-                <div class="flex gap-4">
-                    <a href="#menu" class="bg-yellow-500 hover:bg-yellow-600 text-black px-8 py-3 rounded-full font-bold text-lg transition-transform hover:scale-105">اطلب الآن 🚀</a>
-                </div>
+    </header>
+
+    <main id="menu" class="max-w-6xl mx-auto p-6 grid md:grid-cols-3 gap-8">
+        <div class="md:col-span-2 grid sm:grid-cols-2 gap-6">
+            <div class="bg-slate-900 p-4 rounded-2xl border border-slate-700">
+                <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400" class="rounded-xl mb-4">
+                <h3 class="text-xl font-bold">Chicken Burger</h3>
+                <p class="text-yellow-400 font-bold text-lg">47 درهم</p>
+                <button onclick="addItem('Chicken Burger', 47)" class="w-full mt-3 bg-blue-600 py-2 rounded-lg font-bold">أضف للسلة</button>
             </div>
-            <div class="flex-1">
-                <img src="https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=800" class="rounded-3xl shadow-2xl border-4 border-yellow-500/20" alt="Delivery">
+            <div class="bg-slate-900 p-4 rounded-2xl border border-slate-700">
+                <img src="https://images.unsplash.com/photo-1628102476625-88c44e924480?w=400" class="rounded-xl mb-4">
+                <h3 class="text-xl font-bold">Tacos Crispy</h3>
+                <p class="text-yellow-400 font-bold text-lg">42 درهم</p>
+                <button onclick="addItem('Tacos Crispy', 42)" class="w-full mt-3 bg-blue-600 py-2 rounded-lg font-bold">أضف للسلة</button>
             </div>
         </div>
-    </section>
 
-    <main id="menu" class="max-w-6xl mx-auto p-8 grid grid-cols-1 lg:grid-cols-3 gap-10">
-        <div class="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <div class="bg-white p-5 rounded-3xl shadow-sm border border-slate-100">
-                <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500" class="w-full h-40 object-cover rounded-2xl mb-4">
-                <h3 class="font-bold text-lg">Chicken Burger</h3>
-                <p class="text-blue-600 font-bold mb-3">47 DH</p>
-                <button onclick="addItem('Chicken Burger', 47)" class="w-full bg-blue-600 text-white py-2 rounded-xl font-bold">إضافة</button>
-            </div>
-            </div>
-
-        <div class="bg-white p-6 rounded-3xl shadow-xl h-fit sticky top-5 border border-slate-100">
-            <h2 class="text-xl font-bold mb-4">سلة الطلبات</h2>
-            <div id="cart-list" class="space-y-3 mb-6 min-h-[100px]"></div>
-            <div class="border-t pt-4">
-                <p class="text-lg font-bold">المجموع: <span id="final-total">0.00</span> DH</p>
-                <input type="text" id="custName" placeholder="الاسم الكامل" class="w-full mt-3 p-2 border rounded-lg">
-                <input type="text" id="custAddr" placeholder="العنوان بسلا" class="w-full mt-2 p-2 border rounded-lg">
-                <button onclick="sendViaWhatsApp()" class="w-full bg-emerald-600 text-white py-4 rounded-xl mt-4 font-bold text-lg">إرسال الطلب عبر واتساب</button>
-            </div>
+        <div class="bg-white text-black p-6 rounded-3xl h-fit sticky top-5">
+            <h2 class="text-2xl font-bold mb-4">سلة الطلبات</h2>
+            <div id="cart" class="space-y-2 mb-4"></div>
+            <div class="text-xl font-bold border-t pt-4">المجموع: <span id="total">0</span> درهم</div>
+            <button onclick="sendOrder()" class="w-full mt-6 bg-green-600 text-white py-4 rounded-xl font-bold">أرسل الطلب عبر واتساب</button>
         </div>
     </main>
 
     <script>
-        let selectedItems = {};
+        let cart = [];
         function addItem(name, price) {
-            selectedItems[name] = selectedItems[name] ? {price: price, qty: selectedItems[name].qty + 1} : {price: price, qty: 1};
-            refreshUI();
+            cart.push({name, price});
+            render();
         }
-        function refreshUI() {
-            let container = document.getElementById('cart-list');
-            let total = 0;
-            container.innerHTML = Object.keys(selectedItems).map(name => {
-                let item = selectedItems[name];
-                total += item.price * item.qty;
-                return `<div class="flex justify-between">${name} x${item.qty} <b>${item.price * item.qty} DH</b></div>`;
-            }).join('');
-            document.getElementById('final-total').innerText = total.toFixed(2);
+        function render() {
+            document.getElementById('cart').innerHTML = cart.map(i => `<p>${i.name}: ${i.price} DH</p>`).join('');
+            document.getElementById('total').innerText = cart.reduce((a, b) => a + b.price, 0);
         }
-        function sendViaWhatsApp() {
-            let name = document.getElementById('custName').value;
-            let addr = document.getElementById('custAddr').value;
-            let msg = `طلب جديد: الاسم: ${name}, العنوان: ${addr}. المجموع: ${document.getElementById('final-total').innerText} DH`;
-            window.open(`https://wa.me/212634555612?text=${encodeURIComponent(msg)}`);
+        function sendOrder() {
+            let total = document.getElementById('total').innerText;
+            let msg = "أريد طلب: " + cart.map(i => i.name).join(", ") + ". المجموع: " + total + " DH";
+            window.open("https://wa.me/212634555612?text=" + encodeURIComponent(msg));
         }
     </script>
 </body>
